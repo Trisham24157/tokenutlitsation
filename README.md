@@ -8,6 +8,8 @@ message is billed in **tokens**. TokenSense predicts, for one person, how many t
 **generate** (output) per day and per month, based on their profession and habits. It also
 estimates the cost and tells the user which type of AI user they are.
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/jerry5379/tokensense)
+
 ![Predict page](screenshots/01_predict.png)
 
 **Printable practical file:** `Experiment_10_Mini_Project_TokenSense.docx` (and the same as `.pdf`).
@@ -78,6 +80,14 @@ python app.py                      # 3. open http://127.0.0.1:5050
 ```
 
 The data and trained models are already included, so you can jump straight to step 3.
+
+## Hosting online (Render, free)
+
+`render.yaml` describes the service. Click the **Deploy to Render** button above, sign in with
+GitHub and press **Apply**. Render installs the requirements, retrains the models (so they match its
+library versions) and serves the app with gunicorn at `https://tokensense-xxxx.onrender.com`.
+On the free plan the app sleeps after 15 minutes without visitors; the first visit after that takes
+about a minute to wake it up.
 
 ## Rebuilding the practical file
 
