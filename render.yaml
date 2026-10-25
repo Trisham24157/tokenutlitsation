@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: tokensense
+    runtime: python
+    plan: free
+    # Retrain on the server so the saved models match the library versions installed there
+    buildCommand: pip install -r requirements.txt && python src/train.py
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    healthCheckPath: /api/meta
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5

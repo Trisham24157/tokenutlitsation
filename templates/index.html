@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TokenSense – AI Token Utilization Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">T</div>
+    <div>
+      <h1>TokenSense</h1>
+      <p>Predict how many AI tokens you will feed in and get back, based on your profession and habits</p>
+    </div>
+  </div>
+  <nav>
+    <button class="tab active" data-tab="predict">Predict</button>
+    <button class="tab" data-tab="insights">Model Insights</button>
+    <button class="tab" data-tab="data">Training Data</button>
+    <button class="tab" data-tab="about">About</button>
+    <button class="tab theme-toggle" id="theme-toggle" type="button">Light mode</button>
+  </nav>
+</header>
+
+<main>
+  <!-- PREDICT -->
+  <section id="predict" class="panel active">
+    <div class="grid-2">
+      <form id="predict-form" class="card">
+        <h2>Your AI usage profile</h2>
+        <p class="hint">Pick a profession to auto-fill typical habits, then adjust to match yourself.</p>
+        <label>Profession <select name="profession" id="profession"></select></label>
+        <div class="row">
+          <label>Day <select name="day_of_week" id="day_of_week"></select></label>
+          <label>Model tier <select name="model_tier" id="model_tier"></select></label>
+        </div>
+        <div class="row">
+          <label>Experience (years) <input type="number" name="experience_years" min="0" max="40"></label>
+          <label>Docs uploaded / day <input type="number" name="docs_uploaded" min="0" max="50"></label>
+        </div>
+        <div class="row">
+          <label>Chat sessions / weekday <input type="number" name="sessions_per_day" min="0" max="60"></label>
+          <label>Chat sessions / weekend day <input type="number" name="weekend_sessions" min="0" max="60"></label>
+        </div>
+        <div class="row">
+          <label>Messages per session <input type="number" name="turns_per_session" min="1" max="40"></label>
+          <label>Avg prompt length (words) <input type="number" name="avg_prompt_words" min="5" max="3000"></label>
+        </div>
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="deadline_week"> Deadline / exam week</label>
+          <label class="check"><input type="checkbox" name="uses_agents"> Uses AI agents (Cursor, Copilot agent, etc.)</label>
+          <label class="check"><input type="checkbox" name="code_task"> Coding task today</label>
+        </div>
+        <button type="submit" class="primary">Predict my token usage</button>
+      </form>
+
+      <div id="results" class="results empty">
+        <div class="card placeholder">
+          <h2>Prediction will appear here</h2>
+          <p>The Random Forest model predicts <b>input tokens</b> (what you feed to the AI: prompts, chat history,
+            files) and <b>output tokens</b> (what the AI writes back), then explains why.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGHTS -->
+  <section id="insights" class="panel">
+    <div id="insights-body"></div>
+  </section>
+
+  <!-- DATA -->
+  <section id="data" class="panel">
+    <div id="data-body"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="panel">
+    <div class="card prose">
+      <h2>How TokenSense works</h2>
+      <table class="table">
+        <thead><tr><th>Module</th><th>Algorithm</th><th>What it does in this project</th></tr></thead>
+        <tbody>
+          <tr><td>M3</td><td>Random Forest (Regression)</td><td>Predicts input and output tokens per user per day from profession, day of week, deadline week, sessions, prompt length, documents, agents and coding work</td></tr>
+          <tr><td>M4</td><td>K-Means</td><td>Groups users into usage types (light, steady 9-to-5, anytime learner, power user) so token budgets fit each type</td></tr>
+        </tbody>
+      </table>
+      <h3>Architecture</h3>
+      <pre class="arch">Browser (HTML + CSS + JavaScript)
+     │  fetch() JSON over HTTP
+     ▼
+Flask REST API (app.py)  ──►  models/rf_token_model.joblib   (Random Forest pipeline)
+                              models/kmeans_users.joblib     (K-Means + scaler)
+                              models/insights.json           (test metrics, clusters)</pre>
+    </div>
+  </section>
+</main>
+
+<div id="toast"></div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

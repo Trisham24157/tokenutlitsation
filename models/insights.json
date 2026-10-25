@@ -1,0 +1,163 @@
+{
+  "dataset": {
+    "rows": 9000,
+    "users": 300,
+    "train_rows": 7200,
+    "test_rows": 1800,
+    "features": [
+      "profession",
+      "day_of_week",
+      "model_tier",
+      "experience_years",
+      "deadline_week",
+      "uses_agents",
+      "sessions_per_day",
+      "turns_per_session",
+      "avg_prompt_words",
+      "docs_uploaded",
+      "code_task"
+    ],
+    "targets": [
+      "input_tokens",
+      "output_tokens"
+    ]
+  },
+  "random_forest": {
+    "n_estimators": 200,
+    "metrics": {
+      "input_tokens": {
+        "mae": 11297.8,
+        "rmse": 26144.7,
+        "r2": 0.9239
+      },
+      "output_tokens": {
+        "mae": 2116.4,
+        "rmse": 3556.6,
+        "r2": 0.906
+      },
+      "overall": {
+        "mae": 6707.1,
+        "rmse": 14850.7,
+        "r2": 0.9149
+      }
+    },
+    "feature_importance": {
+      "sessions_per_day": 0.3503,
+      "turns_per_session": 0.2534,
+      "uses_agents": 0.1848,
+      "avg_prompt_words": 0.1701,
+      "day_of_week": 0.0082,
+      "docs_uploaded": 0.0081,
+      "experience_years": 0.0068,
+      "profession": 0.0063,
+      "code_task": 0.0052,
+      "model_tier": 0.0051,
+      "deadline_week": 0.0016
+    }
+  },
+  "kmeans": {
+    "k": 4,
+    "silhouette": 0.2547,
+    "elbow": [
+      {
+        "k": 2,
+        "inertia": 840.17,
+        "silhouette": 0.2705
+      },
+      {
+        "k": 3,
+        "inertia": 657.93,
+        "silhouette": 0.2673
+      },
+      {
+        "k": 4,
+        "inertia": 550.72,
+        "silhouette": 0.2547
+      },
+      {
+        "k": 5,
+        "inertia": 485.33,
+        "silhouette": 0.2444
+      },
+      {
+        "k": 6,
+        "inertia": 440.26,
+        "silhouette": 0.2283
+      },
+      {
+        "k": 7,
+        "inertia": 398.11,
+        "silhouette": 0.2263
+      },
+      {
+        "k": 8,
+        "inertia": 368.9,
+        "silhouette": 0.2115
+      }
+    ],
+    "clusters": [
+      {
+        "cluster": 0,
+        "name": "Steady 9-to-5 Professional",
+        "users": 98,
+        "avg_daily_tokens": 44607,
+        "burstiness": 0.629,
+        "output_share": 0.23,
+        "weekend_ratio": 0.453,
+        "top_professions": {
+          "Customer Support": 17,
+          "Doctor": 13,
+          "Teacher": 13
+        }
+      },
+      {
+        "cluster": 1,
+        "name": "Power User (Heavy Context)",
+        "users": 92,
+        "avg_daily_tokens": 153347,
+        "burstiness": 0.625,
+        "output_share": 0.128,
+        "weekend_ratio": 0.406,
+        "top_professions": {
+          "Data Scientist": 18,
+          "Software Developer": 16,
+          "Lawyer": 12
+        }
+      },
+      {
+        "cluster": 2,
+        "name": "Anytime Learner / Creator",
+        "users": 57,
+        "avg_daily_tokens": 88156,
+        "burstiness": 0.541,
+        "output_share": 0.156,
+        "weekend_ratio": 0.848,
+        "top_professions": {
+          "Student": 23,
+          "Researcher": 15,
+          "Content Writer": 7
+        }
+      },
+      {
+        "cluster": 3,
+        "name": "Light / Irregular User",
+        "users": 53,
+        "avg_daily_tokens": 36912,
+        "burstiness": 0.83,
+        "output_share": 0.191,
+        "weekend_ratio": 0.388,
+        "top_professions": {
+          "Digital Marketer": 11,
+          "Designer": 10,
+          "Business Analyst": 10
+        }
+      }
+    ],
+    "profile_features": {
+      "log_avg_daily_tokens": "log(avg daily tokens)",
+      "burstiness": "Burstiness (std / mean)",
+      "output_share": "Output share of tokens",
+      "weekend_ratio": "Weekend vs weekday usage"
+    }
+  }
+}
